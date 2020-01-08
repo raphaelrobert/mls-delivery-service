@@ -125,7 +125,7 @@ The Delivery Service is responsible to perform the following functions:
 
 ### Storing and serving Client Init Keys
 
-Prior to engaging in an MLS group, clients MUST upload at least one ClientInitKey to the Delivery Service.
+Prior to engaging in an MLS group, clients MUST upload at least one ClientInitKey to the Delivery Service. The Delivery Service MUST check the validity of credentials and signatures with the Authentication Service.
 Clients SHOULD be able to check which ClientInitKeys are held by the Delivery Service and request the deletion of one or more keys.
 Clients MUST be able to request a ClientInitKey of another client from the Delivery Service.
 
@@ -144,6 +144,8 @@ In order to avoid forks of the group state among clients the DS MUST ensure that
 
 The DS receives the roster of a group either from the sending client, or ca extract it from its locally stored group metadata during the fanout operation.
 The DS MUST forward the messages to every client in the group.
+If the DS receives the list of recipients from the client, the DS MUST delete that information immediately after the fanout for privacy related to metadata persistence. 
+If the group membership is persisted on the DS, the DS SHOULD keep this information encrypted at rest when not in use and SHOULD use a key provided on each Commit by the group that it will not persist.
 
 ## Authentication to the DS
 
